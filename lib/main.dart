@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'login.dart';
 import 'signup_screen.dart';
 
 void main() {
@@ -11,12 +12,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Planders',
+      title: 'Plenders',
       theme: ThemeData(
         primaryColor: const Color(0xFF4A90E2),
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: const SignupScreen(), // 임시 코드
+      home: LoginScreen(),
     );
   }
 }
