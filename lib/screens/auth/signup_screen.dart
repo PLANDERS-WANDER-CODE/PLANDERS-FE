@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../../utils/theme/colors.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -22,7 +23,6 @@ class _SignupScreenState extends State<SignupScreen> {
   final List<String> _ageRangeOptions = ['10대', '20대', '30대', '40대', '50대 이상'];
 
   Future<void> _signup() async {
-    // 필수 입력값 검증
     if (_idController.text.isEmpty ||
         _passwordController.text.isEmpty ||
         _nicknameController.text.isEmpty ||
@@ -34,7 +34,6 @@ class _SignupScreenState extends State<SignupScreen> {
       return;
     }
 
-    // 비밀번호 확인 검증
     if (_passwordController.text != _passwordConfirmController.text) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('비밀번호가 일치하지 않습니다.')),
@@ -42,7 +41,6 @@ class _SignupScreenState extends State<SignupScreen> {
       return;
     }
 
-    // 회원가입 데이터
     final Map<String, dynamic> signupData = {
       'key': {
         'accountId': _idController.text
@@ -58,8 +56,6 @@ class _SignupScreenState extends State<SignupScreen> {
     };
 
     try {
-      print('Sending JSON: ${json.encode(signupData)}'); // 디버깅용 로그
-
       final response = await http.post(
         Uri.parse('https://your-backend-url/api/signup'),
         headers: {
@@ -95,16 +91,16 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF4A90E2),
+        backgroundColor: AppColors.primary,
         title: const Text(
           'Planders',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.white,
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
         ),
-        centerTitle: true,
+        centerTitle: false,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -118,11 +114,11 @@ class _SignupScreenState extends State<SignupScreen> {
                   width: 120,
                   height: 120,
                   decoration: BoxDecoration(
-                    color: const Color(0xFF4A90E2),
+                    color: AppColors.primary,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Image.asset(
-                    'assets/images/logo.png',
+                    'lib/assets/image/logo.png',
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -152,10 +148,7 @@ class _SignupScreenState extends State<SignupScreen> {
               const SizedBox(height: 16),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(8),
-                ),
+                decoration: AppColors.dropdownDecoration,
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
                     isExpanded: true,
@@ -178,10 +171,7 @@ class _SignupScreenState extends State<SignupScreen> {
               const SizedBox(height: 16),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(8),
-                ),
+                decoration: AppColors.dropdownDecoration,
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
                     isExpanded: true,
@@ -204,19 +194,13 @@ class _SignupScreenState extends State<SignupScreen> {
               const SizedBox(height: 32),
               ElevatedButton(
                 onPressed: _signup,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF2D2D2D),
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
+                style: AppColors.signupButtonStyle,
                 child: const Text(
                   '회원 가입',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: AppColors.white,
                   ),
                 ),
               ),
@@ -254,26 +238,7 @@ class CustomTextField extends StatelessWidget {
     return TextField(
       controller: controller,
       obscureText: isPassword,
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: const TextStyle(
-          color: Colors.grey,
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(
-            color: Colors.grey,
-            width: 1,
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(
-            color: Color(0xFF4A90E2),
-            width: 2,
-          ),
-        ),
-      ),
+      decoration: AppColors.textFieldDecoration(label),
     );
   }
 }
