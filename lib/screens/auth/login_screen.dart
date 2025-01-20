@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     try {//HTTP POST요청을 통한 로그인 시도
       final response = await http.post(
-        Uri.parse('https://your-backend-url/api/login'), // 실제 로그인 API endpoint로 변경 필요
+        Uri.parse('https://your-backend-url/api/auth'), // 실제 로그인 API endpoint로 변경 필요
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json'
